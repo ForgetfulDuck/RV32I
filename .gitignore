@@ -1,2 +1,3 @@
 src/obj_dir/
-src/Run Order.txt
+src/RunOrder.txt
+src/*.vcd

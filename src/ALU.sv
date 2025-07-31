@@ -4,9 +4,7 @@ module ALU (
     // 4 bits for 16 ALU functions
     input logic [3:0] alu_ctrl,
 
-    output logic [31:0] result,
-    output logic last_bit,
-    output logic zero
+    output logic [31:0] result
 );
 
     typedef enum logic [3:0] {
@@ -20,8 +18,10 @@ module ALU (
         SRA  = 4'b0111,
         SLT  = 4'b1000,
         SLTU = 4'b1001,
+        JALR = 4'b1010,
         THRU = 4'b1111
     } alu_codes; 
+    
 
     always_comb begin
         case (alu_ctrl)
@@ -35,12 +35,10 @@ module ALU (
             SRA : result = $signed(src1) >>> src2[4:0];
             SLT : result = {31'b0, $signed(src1) < $signed(src2)};
             SLTU: result = {31'b0, src1 < src2};
+            JALR: result = (src1 + src2) & ~1;
             THRU: result = src2;
             default: result = 32'd0;
         endcase
     end
-
-    assign zero = (result == 32'b0);
-    assign last_bit = result[31];
     
 endmodule

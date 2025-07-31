@@ -1,0 +1,8 @@
+Verilate file
+verilator -f verilator.f {test}.v {test}_tb.cpp
+
+Make C file
+make -C obj_dir -f V{test}.mk V{test}
+
+Run Simulation
+./obj_dir/V{test}

@@ -27,7 +27,6 @@ module ImmGen (
                     immediate = {27'b0, instr[24:20]};
                 else
                     immediate = {{20{instr[31]}}, instr[31:20]};
-
             end
             B_type:
                 immediate = {{19{instr[31]}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
@@ -38,8 +37,7 @@ module ImmGen (
             S_type:
                 immediate = {{20{instr[31]}}, instr[31:25], instr[11:7]};
             LUI_instr, AUIPC_instr:
-                immediate = {instr[31:12], 12'b0};
-            
+                immediate = {instr[31:12], 12'b0};            
             default: immediate = 32'b0;
         endcase
     end

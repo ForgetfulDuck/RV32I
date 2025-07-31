@@ -12,5 +12,4 @@ Implemented in SystemVerilog targeting synthesis on the Sipeed Tang Primer 25k F
     gtkwave {DUT}_waveform.vcd
 
 ## To-Do
-- Finish controller (75%)
-- Implement top-level module (70%)
+- Implement Pipelining

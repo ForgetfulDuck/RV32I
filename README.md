@@ -9,6 +9,9 @@ A synthesizable Verilog implementation of a single-cycle RISC-V RV32I core. The 
 - **Verilator Simulation**: C++ testbenches for simulation and functional verification.
 - **Automated Workflow**: Shell scripts handle compilation, simulation, and VCD trace generation for waveform inspection..
 
+## 
+![Single-cycle datapath](/img/Single_Cycle_Datapath.jpg)
+
 ## Dependencies
 - Verilator (v5.0+): For simulation/verification.
 - GTKWave (optional): For viewing VCD waveforms.

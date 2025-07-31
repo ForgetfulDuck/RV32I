@@ -1,5 +1,5 @@
 # RV32I RISC-V CPU (SystemVerilog)
-Implemented in SystemVerilog for the synthesis on the Sipeed Tang Primer, simulated with Verilator and GTKWave.
+Implemented in SystemVerilog targeting synthesis on the Sipeed Tang Primer 25k FPGA, simulated using Verilator.
 ## Key Features 
 - **RV32I Compliance**: Fully implements the RISC-V base integer instruction set (verified with 100% coverage).  
 - **SystemVerilog RTL**: Synthesizable design with assertions and linted code.  

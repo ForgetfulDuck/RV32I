@@ -59,7 +59,7 @@ int main(int argc, char** argv, char** env) {
     Verilated::traceEverOn(true);
     VerilatedVcdC* m_trace = new VerilatedVcdC;
     dut->trace(m_trace, 5);
-    m_trace->open("BranchHandler_waveform.vcd");
+    m_trace->open("VCD/BranchHandler_waveform.vcd");
 
     // 6 deterministic test cases: 2 equal, 2 signed, 2 unsigned
     std::vector<std::pair<uint32_t, uint32_t>> test_cases = {
@@ -101,7 +101,7 @@ int main(int argc, char** argv, char** env) {
             assert(dut->branched == expected && "❌ BranchHandler incorrect result");
         }
 
-        printf("\n\n");
+        printf("\n");
     }
 
     printf("✅ All BranchHandler test cases passed!\n");

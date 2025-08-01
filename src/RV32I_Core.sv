@@ -1,12 +1,23 @@
 module RV32I_Core #(
     parameter IMEM_WORDS = 128,
     parameter DMEM_WORDS = 128,
-    parameter IMEM_INIT  = "RV32I_TestProg.mem",
+    parameter IMEM_INIT  = "./src/RV32I_TestProg.mem",
     parameter DMEM_INIT  = ""
 ) (
     input  logic        clk,
     input  logic        rst,
-    output logic        illegal_op
+    output logic        illegal_op,
+    output logic [31:0] debug_pc,
+    output logic [31:0] debug_instr,
+    output logic [31:0] debug_reg_wdata,
+    output logic [31:0] debug_reg_rdata1,
+    output logic [31:0] debug_reg_rdata2,
+    output logic [31:0] debug_alu_result,
+    output logic [31:0] debug_mem_rdata,
+    output logic [31:0] debug_next_pc,
+    output logic        debug_pc_src_sel,
+    output logic [3:0]  debug_alu_ctrl,
+    output logic        debug_reg_wen
 );
     // ==================================
     // INTERNAL WIRES
@@ -29,8 +40,6 @@ module RV32I_Core #(
     logic mem_wen;
     logic [1:0] wb_sel;
     
-
-
     logic pc_src_sel;
     
     // EX
@@ -40,6 +49,23 @@ module RV32I_Core #(
     // MEM
     logic [2:0]  byte_mask;
     logic [31:0] mem_rdata;
+
+
+    // ==================================
+    // Assigning debug outputs
+    // ==================================
+    assign debug_instr = instr;
+    assign debug_pc = pc;
+    assign debug_reg_wdata = reg_wdata;
+    assign debug_reg_rdata1 = reg_rdata1;
+    assign debug_reg_rdata2 = reg_rdata2;
+    assign debug_alu_result = alu_result;
+    assign debug_mem_rdata = mem_rdata;
+    assign debug_next_pc = next_pc;
+    assign debug_pc_src_sel = pc_src_sel;
+    assign debug_alu_ctrl = alu_ctrl;
+    assign debug_reg_wen = reg_wen;
+
     // ==================================
     // INSTRUCTION FETCH (NEEDS PC INPUT FROM TRI STATE MUX -- UPDATE CONTROLLER!!!)
     // ==================================

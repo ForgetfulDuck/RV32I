@@ -9,7 +9,7 @@ fi
 TEST="$1"
 
 echo "🔧 Verilating $TEST..."
-verilator -f verilator.f ${TEST}.sv ${TEST}_testbench.cpp
+verilator -I./src -f verilator.f ./src/${TEST}.sv tb/${TEST}_tb.cpp
 
 echo "🛠️  Compiling C++ simulation..."
 make -C obj_dir -f V${TEST}.mk V${TEST}

@@ -1,6 +1,50 @@
-13 00 00 00 // ADDI x0, x0, 0 (NOP)
-93 00 10 00 // ADDI x1, x0, 1
-13 01 20 00 // ADDI x2, x0, 2
-93 01 30 00 // ADDI x3, x0, 3
-13 02 40 00 // ADDI x4, x0, 4
-93 02 50 00 // ADDI x5, x0, 5
+00 50 00 93 // addi x1, x0, 5
+00 30 01 13 // addi x2, x0, 3
+00 00 11 93 // addi x3, x0, 0x100
+
+// ALU operations
+00 20 82 33 // add x4, x1, x2
+40 20 02 b3 // sub x5, x1, x2
+00 20 63 33 // and x6, x1, x2
+00 20 e3 b3 // or x7, x1, x2
+00 20 74 33 // xor x8, x1, x2
+00 20 14 b3 // sll x9, x1, x2
+00 20 55 33 // srl x10, x1, x2
+40 20 55 b3 // sra x11, x1, x2
+00 20 26 33 // slt x12, x1, x2
+00 20 36 b3 // sltu x13, x1, x2
+
+// Immediate ALU operations
+ff c0 07 93 // addi x14, x0, -4
+00 60 27 93 // slti x15, x1, 6
+00 60 38 13 // sltiu x16, x1, 6
+
+// Load/store operations
+00 01 20 23 // sw x1, 0(x3)
+00 01 28 03 // lw x17, 0(x3)
+00 11 11 23 // sh x1, 4(x3)
+00 41 19 03 // lh x18, 4(x3)
+00 81 18 23 // sb x1, 8(x3)
+00 81 18 83 // lb x19, 8(x3)
+
+// Branch operations
+01 01 12 63 // beq x1, x17, branch1
+00 10 0a 93 // addi x20, x0, 1
+01 01 22 63 // bne x1, x2, branch2
+00 20 0a 93 // addi x20, x0, 2
+01 01 12 e3 // blt x2, x1, branch3
+00 30 0a 93 // addi x20, x0, 3
+01 01 21 63 // bge x1, x2, branch4
+00 40 0a 93 // addi x20, x0, 4
+01 01 12 73 // bltu x2, x1, branch5
+00 50 0a 93 // addi x20, x0, 5
+01 01 21 d6 // bgeu x1, x2, branch6
+00 60 0a 93 // addi x20, x0, 6
+
+// Jump operations
+00 80 00 ef // jal x21, jump1
+00 10 0b 93 // addi x22, x0, 1
+00 0a 80 67 // jalr x0, x21, 0
+
+// Final infinite loop
+00 00 00 6f // jal x0, inf_loop

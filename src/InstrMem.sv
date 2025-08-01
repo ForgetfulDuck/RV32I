@@ -1,6 +1,6 @@
 module InstrMem#(
     parameter WORDS = 128,
-    parameter mem_init = "InstrMem_test.mem"
+    parameter mem_init = "./src/InstrMem_test.mem"
 ) (
     input logic clk,
     input logic [31:0] address,
@@ -23,7 +23,7 @@ module InstrMem#(
     end
 
     always_ff @(posedge clk ) begin
-        // Asynchronous read w/ EOF Flag
+        // Synchronous read w/ EOF Flag
         instr <= (address + 3) >= (WORDS * 4) ? 32'hDEADBEEF : {mem[address + 0],
                                                                 mem[address + 1],
                                                                 mem[address + 2],

@@ -18,16 +18,16 @@ A synthesizable Verilog implementation of a single-cycle RISC-V RV32I core. The 
 - GCC/Clang: To compile Verilator files.
 
 ## Quick Start
-**Compile RTL with Verilator & run testbench for a single module:**\
+*Compile RTL with Verilator & run testbench for **a single** module:*
 ```
 ./Verilatte.sh {DUT}
 ```
-**Compile RTL with Verilator & run testbenches for all modules:**\
+*Compile RTL with Verilator & run testbenches for **all** modules:*
 ```
-./Verimax.sh
+./Verimax.sh {excluded DUTs}
 ```
 
-**View generated waveforms:**\
+**View generated waveforms:**
 ```
 gtkwave {DUT}_waveform.vcd
 ```

@@ -33,6 +33,6 @@ gtkwave {DUT}_waveform.vcd
 ```
 
 ## To-Do
-- [ ] Finish testing RV32I_Core.
+- [ ] Write a basic assembler.
 - [ ] Implement 5-stage pipelined architecture (IF, ID, EX, MEM, WB).
 - [ ] Add support for Control and Status Registers (CSRs) and exception/trap handling.

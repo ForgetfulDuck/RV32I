@@ -50,22 +50,6 @@ module RV32I_Core #(
     logic [2:0]  byte_mask;
     logic [31:0] mem_rdata;
 
-
-    // ==================================
-    // Assigning debug outputs
-    // ==================================
-    assign debug_instr = instr;
-    assign debug_pc = pc;
-    assign debug_reg_wdata = reg_wdata;
-    assign debug_reg_rdata1 = reg_rdata1;
-    assign debug_reg_rdata2 = reg_rdata2;
-    assign debug_alu_result = alu_result;
-    assign debug_mem_rdata = mem_rdata;
-    assign debug_next_pc = next_pc;
-    assign debug_pc_src_sel = pc_src_sel;
-    assign debug_alu_ctrl = alu_ctrl;
-    assign debug_reg_wen = reg_wen;
-
     // ==================================
     // INSTRUCTION FETCH (NEEDS PC INPUT FROM TRI STATE MUX -- UPDATE CONTROLLER!!!)
     // ==================================
@@ -90,7 +74,7 @@ module RV32I_Core #(
         .WORDS(IMEM_WORDS),
         .mem_init(IMEM_INIT)
     ) u_instrMem (
-        .clk(clk), .address(pc),
+        .address(pc),
         .instr(instr)
     );
 
@@ -164,4 +148,19 @@ module RV32I_Core #(
         .sel(wb_sel),
         .OUT(reg_wdata)
     );
+
+    // ==================================
+    // Assigning debug outputs
+    // ==================================
+    assign debug_instr = instr;
+    assign debug_pc = pc;
+    assign debug_reg_wdata = reg_wdata;
+    assign debug_reg_rdata1 = reg_rdata1;
+    assign debug_reg_rdata2 = reg_rdata2;
+    assign debug_alu_result = alu_result;
+    assign debug_mem_rdata = mem_rdata;
+    assign debug_next_pc = next_pc;
+    assign debug_pc_src_sel = pc_src_sel;
+    assign debug_alu_ctrl = alu_ctrl;
+    assign debug_reg_wen = reg_wen;
 endmodule

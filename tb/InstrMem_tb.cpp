@@ -38,8 +38,8 @@ int main(int argc, char** argv, char** env) {
         if (sim_time >= MAX_SIM_TIME) break; 
         dut->address = test.address;
         
-        dut->clk = 0; dut->eval(); m_trace->dump(sim_time++);
-        dut->clk = 1; dut->eval(); m_trace->dump(sim_time++);
+        dut->eval(); m_trace->dump(sim_time++);
+        dut->eval(); m_trace->dump(sim_time++);
 
         printf("[%2lu] %-43s\t||\t0x%08X\t||\t0x%08X\t0x%08X\t\t%s\n",
             sim_time / 2,

@@ -12,15 +12,15 @@ vluint64_t sim_time = 0;
 enum AluOps {
     ADD  = 0b0000,
     SUB  = 0b0001,
-    XOR  = 0b0010,
-    OR   = 0b0011,
-    AND  = 0b0100,
-    SLL  = 0b0101,
-    SRL  = 0b0110,
-    SRA  = 0b0111,
-    SLT  = 0b1000,
-    SLTU = 0b1001,
-    JALR = 0b1010,
+    SLT  = 0b0100,
+    SLTU = 0b0110,
+    XOR  = 0b1000,
+    OR   = 0b1100,
+    AND  = 0b1110,
+    SLL  = 0b0010,
+    SRA  = 0b1011,
+    SRL  = 0b1010,
+    JALR = 0b0011,
     THRU = 0b1111,
 };
 
@@ -81,7 +81,7 @@ uint32_t calculateExpected(uint32_t src1, uint32_t src2, uint8_t alu_ctrl) {
             expected_result = src2;
             break;
         default:
-            expected_result = 0;
+            expected_result = src2;
             break;
     }
     
@@ -103,39 +103,63 @@ int main(int argc, char** argv, char** env) {
     dut->trace(m_trace, 5);
     m_trace->open("VCD/ALU_waveform.vcd");
 
-    // Loop to generate random tests
+    std::cout << std::string(5, ' ');
+    printf("PC \tIMM\tsrc1\tsrc2\tALU OP\t|| Result\tExpected\n");
+    std::cout << std::string(100, '=') << std::endl;
+    
     for (uint8_t aluOp = ADD; aluOp <= THRU; aluOp++) {
         if (sim_time >= MAX_SIM_TIME) break;
         
         const char* op_name = aluOpNames[(AluOps)aluOp].c_str();
-        if (aluOp > JALR && aluOp < THRU) { // Invalid operation range
-            op_name = "Invalid";
-        }
 
-        printf("     Testing %-4s\t\t|| SRC1\t\tSRC2\t\tALU_OP\t||\tRESULT\t\tEXPECTED\n", op_name);
-        printf("------------------------------------------------------------------------------------------------------------------\n");
-        
-
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             uint32_t src1 = rand();
             uint32_t src2 = rand();
             uint32_t expected = calculateExpected(src1, src2, aluOp);
-
-            dut->src1       = src1;
-            dut->src2       = src2;
+            
             dut->alu_ctrl   = aluOp;
+            
+            // Set src1
+            if(i&1){
+                dut->pc_sel = true;
+                dut->rdata1 = 0;
+                dut->pc     = src1;
+            }
+            else{
+                dut->pc_sel = false;
+                dut->rdata1 = src1;
+                dut->pc     = 0;
+            }
+
+            // Set src2
+            if(i&2){
+                dut->imm_sel = true;
+                dut->rdata2 = 0;
+                dut->imm    = src2;
+            }
+            else{
+                dut->imm_sel = false;
+                dut->rdata2 = src2;
+                dut->imm    = 0;
+            }
 
             advance_sim(dut, m_trace);
 
-            printf("[%2lu] %-24s\t|| 0x%08X\t0x%08X\t0x%X\t||\t0x%08X\t0x%08X\n",
-            sim_time,
-            op_name,
-            dut->src1, dut->src2, dut->alu_ctrl,
-            dut->result, expected);
+            printf("[%2lu] %-3s\t%-3s\t0x%08X\t0x%08X\t%-8s || 0x%08X\t0x%08X\n",
+                sim_time,
+                dut->pc_sel  ? "PC"  : "RD1",
+                dut->imm_sel ? "IMM" : "RD2",
+                src1,
+                src2,
+                op_name,
+                dut->result,
+                expected);
+
+            // Assert that the DUT's result matches the expected result
+            assert(dut->result == expected && "❌ Incorrect ALU result");
 
             assert(dut->result == expected && "❌ Incorrect ALU result");
         }
-        printf("\n");
     }
 
     printf("✅ All ALU test cases passed!\n");

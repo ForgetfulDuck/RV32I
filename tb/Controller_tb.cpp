@@ -10,14 +10,29 @@ vluint64_t sim_time = 0;
 
 // Enums for decoding
 enum ALU_CTRL {
-    ALU_ADD  = 0b0000, ALU_SUB  = 0b0001, ALU_XOR  = 0b0010, ALU_OR   = 0b0011,
-    ALU_AND  = 0b0100, ALU_SLL  = 0b0101, ALU_SRL  = 0b0110, ALU_SRA  = 0b0111,
-    ALU_SLT  = 0b1000, ALU_SLTU = 0b1001, ALU_JALR = 0b1010, ALU_THRU = 0b1111
+    ALU_ADD  = 0b0000,
+    ALU_SUB  = 0b0001,
+    ALU_SLT  = 0b0100,
+    ALU_SLTU = 0b0110,
+    ALU_XOR  = 0b1000,
+    ALU_OR   = 0b1100,
+    ALU_AND  = 0b1110,
+    ALU_SLL  = 0b0010,
+    ALU_SRA  = 0b1011,
+    ALU_SRL  = 0b1010,
+    ALU_JALR = 0b0011,
+    ALU_THRU = 0b1111
 };
 
 enum BRANCH_CTRL {
-    NOB_CTRL = 0b000, BEQ_CTRL = 0b001, BNE_CTRL = 0b010, BLT_CTRL = 0b011,
-    BGE_CTRL = 0b100, BLTU_CTRL = 0b101, BGEU_CTRL = 0b110, JMP_CTRL = 0b111
+    NOB_CTRL  = 0b010,
+    BEQ_CTRL  = 0b000,
+    BNE_CTRL  = 0b001,
+    BLT_CTRL  = 0b100,
+    BGE_CTRL  = 0b101,
+    BLTU_CTRL = 0b110,
+    BGEU_CTRL = 0b111,
+    JMP_CTRL  = 0b011
 };
 
 enum WB_SEL {

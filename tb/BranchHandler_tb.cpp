@@ -9,14 +9,14 @@
 vluint64_t sim_time = 0;
 
 enum BranchCond {
-    NOB  = 0b000,
-    BEQ  = 0b001,
-    BNE  = 0b010,
-    BLT  = 0b011,
-    BGE  = 0b100,
-    BLTU = 0b101,
-    BGEU = 0b110,
-    JMP  = 0b111
+    NOB  = 0b010,
+    BEQ  = 0b000,
+    BNE  = 0b001,
+    BLT  = 0b100,
+    BGE  = 0b101,
+    BLTU = 0b110,
+    BGEU = 0b111,
+    JMP  = 0b011
 };
 
 std::map<BranchCond, std::string> branchCondNames = {
@@ -71,13 +71,14 @@ int main(int argc, char** argv, char** env) {
         {0xFFFFFFFE, 0xFFFFFFFD}   // Unsigned >, Signed < (both negative)
     };
 
-    for (uint8_t cond = NOB; cond <= JMP; cond++) {
+    for (uint8_t cond = 0b000; cond <= 0b111; cond++) {
         if (sim_time >= MAX_SIM_TIME) break;
 
         const char* cond_name = branchCondNames[(BranchCond)cond].c_str();
 
-        printf("     Testing %-5s\t|| SRC1\t\tSRC2\t\tCOND\t||\tBRANCHED\tEXPECTED\n", cond_name);
-        printf("------------------------------------------------------------------------------------------------------\n");
+        std::cout << std::string(5, ' ');
+        printf("Testing %-5s\t|| SRC1\t\tSRC2\t\tCOND\t||\tBRANCHED\tEXPECTED\n", cond_name);
+        std::cout << std::string(100, '=') << std::endl;
 
         for (size_t i = 0; i < test_cases.size(); i++) {
             uint32_t src1 = test_cases[i].first;

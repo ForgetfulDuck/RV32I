@@ -1,15 +1,16 @@
 module PC (
-    input clk, rst,
-    input [31:0] next_pc,
-        
-    output reg [31:0] pc
+    input clk, rst, pc_src_sel,
+    input [31:0] branch_pc,
+    output reg [31:0] pc, pc_plus_4
 );
-    localparam reset_val = 32'b0;
+
+    logic [31:0] next_pc;
+    
+    assign pc_plus_4    = pc + 32'd4;
+    assign next_pc      = pc_src_sel ? branch_pc : pc_plus_4; // Branch if sel == 1
 
     always_ff @(posedge clk) begin
-        if (rst == 1'b0)
-            pc <= reset_val;
-        else
-            pc <= next_pc;       
+        pc <= next_pc & {32{rst}};   // Active low reset
     end
+
 endmodule

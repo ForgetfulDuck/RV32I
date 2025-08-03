@@ -5,7 +5,9 @@ module ImmGen (
     output logic [31:0] immediate
 );
     logic [4:0] opcode;
+    /* verilator lint_off UNUSEDSIGNAL */
     logic [2:0] func3;
+    /* verilator lint_on UNUSEDSIGNAL */
 
     localparam I_type      = 5'b00100;
     localparam B_type      = 5'b11000;
@@ -21,17 +23,13 @@ module ImmGen (
         func3  = instr[14:12];
 
         case (opcode)
-            I_type : begin
-                // if SHIFT operation
-                if(func3 == 3'b001 || func3 == 3'b101)
-                    immediate = {27'b0, instr[24:20]};
-                else
-                    immediate = {{20{instr[31]}}, instr[31:20]};
+            I_type, JALR_instr, L_type : begin
+                immediate = (func3[1:0] == 2'b01 & opcode[2] == 1'b1) 
+                            ? {27'b0, instr[24:20]} 
+                            : {{20{instr[31]}}, instr[31:20]};
             end
             B_type:
                 immediate = {{19{instr[31]}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
-            JALR_instr, L_type:
-                immediate = {{20{instr[31]}}, instr[31:20]};
             JAL_instr:
                 immediate = {{11{instr[31]}}, instr[31], instr[19:12], instr[20], instr[30:21], 1'b0};
             S_type:
